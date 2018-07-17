@@ -4,10 +4,7 @@ const WeatherSearch = (props) => {
   return (
     <React.Fragment>
       <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          console.log(props.searchTerm)
-        }}
+        onSubmit={(e) => {props.handleSubmit(e)}}
       >
       <input
         type="text"
