@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import WeatherContainer from './containers/WeatherContainer';
+import RecommendationsContainer from './containers/RecommendationsContainer';
 
 
 class App extends Component {
@@ -11,16 +12,29 @@ class App extends Component {
 
     this.state = {
       currentUser: '',
-      userImage: ''
+      userImage: '',
+      weatherIcon: ''
     }
+  }
+
+  getWeatherIcon = (icon) => {
+    this.setState({
+      weatherIcon: icon,
+    }, ()=> console.log('setting weather', this.state))
   }
 
   setUser = (data) => {
     this.setState({
       currentUser: data.username,
       userImage: data.image
-    }, ()=> console.log(this.state))
+    }, ()=> console.log('setting user', this.state))
   }
+  //
+  // {(this.state.weatherIcon !== '')
+  //   ? <RecommendationsContainer
+  //   currentUser={this.state.currentUser} weatherIcon={this.state.weatherIcon}
+  //   />
+  //   : null}
 
   render() {
     return (
@@ -33,7 +47,14 @@ class App extends Component {
           CLICK TO DO A SPOTIFY LOGIN YOOOOOOO
         </a>
         <Router>
-          <Route path="/success" component={() => <WeatherContainer {...this.props} setUser={this.setUser} currentUser={this.state.currentUser}/>} />
+          <Route exact path="/success" component={() =>
+              <WeatherContainer {...this.props}
+                setUser={this.setUser}
+                currentUser={this.state.currentUser}
+                getWeatherIcon={this.getWeatherIcon}
+              />
+            }
+          />
         </Router>
       </div>
     );

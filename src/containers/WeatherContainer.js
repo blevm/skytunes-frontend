@@ -24,8 +24,7 @@ class WeatherContainer extends React.Component {
     }, ()=>{console.log(this.state)})
   }
 
-  handleSubmit = (e, type) => {
-    e.preventDefault()
+  handleSubmit = (type) => {
     if (type === 'zip') {
       fetch(`http://localhost:4000/api/v1/search-zip/${this.state.zipSearch}`)
       .then(resp =>  resp.json())
@@ -34,7 +33,7 @@ class WeatherContainer extends React.Component {
         weatherTitle: (data.currently) ? data.currently.summary : '',
         weatherSummary: (data.minutely) ? data.minutely.summary : '',
         temperature: (data.currently) ? data.currently.temperature : ''
-      }))
+      }, () => this.props.getWeatherIcon(data.currently.icon)))
     } else if (type === 'city') {
       fetch(`http://localhost:4000/api/v1/search-city/${this.state.citySearch}`)
       .then(resp =>  resp.json())
@@ -43,7 +42,7 @@ class WeatherContainer extends React.Component {
         weatherTitle: (data.currently) ? data.currently.summary : '',
         weatherSummary: (data.minutely) ? data.minutely.summary : '',
         temperature: (data.currently) ? data.currently.temperature : ''
-      }))
+      }, () => this.props.getWeatherIcon(data.currently.icon)))
     }
   }
 
@@ -54,13 +53,9 @@ class WeatherContainer extends React.Component {
   }
 
   render() {
-
     return(
       <React.Fragment>
         <div>YEAH WE LOGGED IN OMG</div>
-          <audio src="" controls="play">
-          Your browser does not support the audio element.
-          </audio>
         <WeatherSearch
           zipSearch={this.state.zipSearch}
           citySearch={this.state.citySearch}
