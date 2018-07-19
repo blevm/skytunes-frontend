@@ -13,7 +13,13 @@ class App extends Component {
     this.state = {
       currentUser: '',
       userImage: '',
-      weatherIcon: ''
+      weatherIcon: '',
+      zipSearch: '',
+      citySearch: '',
+      weatherCity: '',
+      weatherTitle: '',
+      weatherSummary: '',
+      temperature: ''
     }
   }
 
@@ -29,12 +35,36 @@ class App extends Component {
       userImage: data.image
     }, ()=> console.log('setting user', this.state))
   }
-  //
-  // {(this.state.weatherIcon !== '')
-  //   ? <RecommendationsContainer
-  //   currentUser={this.state.currentUser} weatherIcon={this.state.weatherIcon}
-  //   />
-  //   : null}
+
+  // handleChange = (e, name) => {
+  //   this.setState({
+  //     [name]: e.target.value
+  //   }, ()=>{console.log(this.state)})
+  // }
+
+  handleSubmit = (type, searchTerm) => {
+    if (type === 'zip') {
+      fetch(`http://localhost:4000/api/v1/search-zip/${searchTerm}`)
+      .then(resp =>  resp.json())
+      .then(data => this.setState({
+        weatherCity: (data.city) ? data.city : '',
+        weatherTitle: (data.currently) ? data.currently.summary : '',
+        weatherSummary: (data.minutely) ? data.minutely.summary : '',
+        temperature: (data.currently) ? data.currently.temperature : '',
+        weatherIcon: (data.currently) ? data.currently.icon : ''
+      }))
+    } else if (type === 'city') {
+      fetch(`http://localhost:4000/api/v1/search-city/${searchTerm}`)
+      .then(resp =>  resp.json())
+      .then(data => this.setState({
+        weatherCity: (data.city) ? data.city : '',
+        weatherTitle: (data.currently) ? data.currently.summary : '',
+        weatherSummary: (data.minutely) ? data.minutely.summary : '',
+        temperature: (data.currently) ? data.currently.temperature : '',
+        weatherIcon: (data.currently) ? data.currently.icon : ''
+      }))
+    }
+  }
 
   render() {
     return (
@@ -49,6 +79,9 @@ class App extends Component {
         <Router>
           <Route exact path="/success" component={() =>
               <WeatherContainer {...this.props}
+                {...this.state}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
                 setUser={this.setUser}
                 currentUser={this.state.currentUser}
                 getWeatherIcon={this.getWeatherIcon}
@@ -56,6 +89,11 @@ class App extends Component {
             }
           />
         </Router>
+        {(this.state.weatherIcon !== '')
+          ? <RecommendationsContainer
+          currentUser={this.state.currentUser} weatherIcon={this.state.weatherIcon}
+          />
+          : null}
       </div>
     );
   }
