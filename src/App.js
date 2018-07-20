@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import WeatherContainer from './containers/WeatherContainer';
 import RecommendationsContainer from './containers/RecommendationsContainer';
+import { connect } from 'react-redux';
 
 
 class App extends Component {
@@ -99,4 +100,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect()(App);
