@@ -3,20 +3,22 @@ import WeatherSearch from '../components/WeatherSearch';
 import CurrentWeather from '../components/CurrentWeather';
 import { withRouter } from 'react-router-dom';
 import qs from "query-string";
+import { connect } from 'react-redux';
+import { setUser } from '../actions';
 
 class WeatherContainer extends React.Component {
-  constructor() {
-    super()
-
-    // this.state = {
-    //   zipSearch: '',
-    //   citySearch: '',
-    //   weatherCity: '',
-    //   weatherTitle: '',
-    //   weatherSummary: '',
-    //   temperature: ''
-    // }
-  }
+  // constructor() {
+  //   super()
+  //
+  //   this.state = {
+  //     zipSearch: '',
+  //     citySearch: '',
+  //     weatherCity: '',
+  //     weatherTitle: '',
+  //     weatherSummary: '',
+  //     temperature: ''
+  //   }
+  // }
 
   // let { zipSearch, citySearch, weatherSummary, temperature } = this.props
 
@@ -30,17 +32,28 @@ class WeatherContainer extends React.Component {
     return(
       <React.Fragment>
         <div>YEAH WE LOGGED IN OMG</div>
-        <WeatherSearch
-          zipSearch={this.props.zipSearch}
-          citySearch={this.props.citySearch}
-          handleChange={this.props.handleChange}
-          handleSubmit={this.props.handleSubmit}
-        />
-      {(this.props.weatherSummary !== '' || this.props.temperature !== '') ?
-      <CurrentWeather {...this.props} /> : null}
+        <WeatherSearch/>
+      {(this.props.weatherSummary !== '' || this.props.temperature !== '')
+        ? <CurrentWeather />
+        : null
+      }
       </React.Fragment>
     )
   }
 }
 
-export default withRouter(WeatherContainer);
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser,
+    weatherSummary: state.weatherSummary,
+    temperature: state.temperature
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setUser: data => dispatch(setUser(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WeatherContainer));

@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { zipWeatherSearch, cityWeatherSearch } from '../actions';
 
 class WeatherSearch extends React.Component {
   constructor() {
@@ -10,51 +12,60 @@ class WeatherSearch extends React.Component {
     }
   }
 
-  handleChange = (e, name) => {
+  handleChange = (e) => {
     this.setState({
-      [name]: e.target.value
+      [e.target.name]: e.target.value
     }, ()=>{console.log(this.state)})
   }
 
-render() {
-  return (
-    <React.Fragment>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          this.props.handleSubmit('zip', this.state.zipSearch)}}
-      >
-        <input
-          type="text"
-          placeholder="Enter Zip Code"
-          value={this.state.zipSearch}
-          style={{width: '300px'}}
-          onChange={(event) => this.handleChange(event, 'zipSearch')}
-        />
-        <input
-          type="submit"
-          value="Get the Weather"
-        />
-      </form>
-      <form onSubmit={(e) => {
-          e.preventDefault();
-          this.props.handleSubmit('city', this.state.citySearch)}}>
-        <input
-          type="text"
-          placeholder="Enter City, State"
-          value={this.state.citySearch}
-          style={{width: '300px'}}
-          onChange={(event) => this.handleChange(event, 'citySearch')}
-        />
-        <input
-          type="submit"
-          value="Get the Weather"
-        />
-      </form>
-    </React.Fragment>
-  )
-}
+  render() {
+    return (
+      <React.Fragment>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            this.props.zipWeatherSearch(this.state.zipSearch)}}
+        >
+          <input
+            type="text"
+            placeholder="Enter Zip Code"
+            name="zipSearch"
+            value={this.state.zipSearch}
+            style={{width: '300px'}}
+            onChange={(event) => this.handleChange(event)}
+          />
+          <input
+            type="submit"
+            value="Get the Weather"
+          />
+        </form>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            this.props.cityWeatherSearch(this.state.citySearch)}}>
+          <input
+            type="text"
+            name="citySearch"
+            placeholder="Enter City, State"
+            value={this.state.citySearch}
+            style={{width: '300px'}}
+            onChange={(event) => this.handleChange(event)}
+          />
+          <input
+            type="submit"
+            value="Get the Weather"
+          />
+        </form>
+      </React.Fragment>
+    )
+  }
 
 }
 
-export default WeatherSearch;
+function mapDispatchToProps(dispatch) {
+  return {
+    zipWeatherSearch: (search) => dispatch(zipWeatherSearch(search)),
+    cityWeatherSearch: (search) => dispatch(cityWeatherSearch(search))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(WeatherSearch);

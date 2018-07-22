@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 const CurrentWeather = ({ weatherCity, weatherTitle, weatherSummary, temperature }) => {
   console.log(`CurrentWeather rendered`, weatherCity, weatherTitle, weatherSummary, temperature)
@@ -12,4 +13,13 @@ const CurrentWeather = ({ weatherCity, weatherTitle, weatherSummary, temperature
   )
 }
 
-export default CurrentWeather;
+function mapStateToProps(state) {
+  return {
+    weatherCity: state.weatherCity,
+    weatherTitle: state.weatherTitle,
+    weatherSummary: state.weatherSummary,
+    temperature: state.temperature
+  }
+}
+
+export default connect(mapStateToProps)(CurrentWeather);

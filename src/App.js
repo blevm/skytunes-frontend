@@ -8,34 +8,34 @@ import { connect } from 'react-redux';
 
 
 class App extends Component {
-  constructor() {
-    super();
+  // constructor() {
+  //   super();
+  //
+  //   // this.state = {
+  //   //   currentUser: '',
+  //   //   userImage: '',
+  //   //   weatherIcon: '',
+  //   //   zipSearch: '',
+  //   //   citySearch: '',
+  //   //   weatherCity: '',
+  //   //   weatherTitle: '',
+  //   //   weatherSummary: '',
+  //   //   temperature: ''
+  //   // }
+  // }
 
-    this.state = {
-      currentUser: '',
-      userImage: '',
-      weatherIcon: '',
-      zipSearch: '',
-      citySearch: '',
-      weatherCity: '',
-      weatherTitle: '',
-      weatherSummary: '',
-      temperature: ''
-    }
-  }
+  // getWeatherIcon = (icon) => {
+  //   this.setState({
+  //     weatherIcon: icon,
+  //   }, ()=> console.log('setting weather', this.state))
+  // }
 
-  getWeatherIcon = (icon) => {
-    this.setState({
-      weatherIcon: icon,
-    }, ()=> console.log('setting weather', this.state))
-  }
-
-  setUser = (data) => {
-    this.setState({
-      currentUser: data.username,
-      userImage: data.image
-    }, ()=> console.log('setting user', this.state))
-  }
+  // setUser = (data) => {
+  //   this.setState({
+  //     currentUser: data.username,
+  //     userImage: data.image
+  //   }, ()=> console.log('setting user', this.state))
+  // }
 
   // handleChange = (e, name) => {
   //   this.setState({
@@ -71,8 +71,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={(this.state.userImage) ? this.state.userImage : logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome {(this.state.currentUser) ? this.state.currentUser : 'to React'}</h1>
+          <img src={(this.props.userImage) ? this.props.userImage : logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome {(this.props.currentUser) ? this.props.currentUser : 'to React'}</h1>
         </header>
         <a href="http://localhost:4000/api/v1/login">
           CLICK TO DO A SPOTIFY LOGIN YOOOOOOO
@@ -80,12 +80,7 @@ class App extends Component {
         <Router>
           <Route exact path="/success" component={() =>
               <WeatherContainer {...this.props}
-                {...this.state}
-                handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
-                setUser={this.setUser}
-                currentUser={this.state.currentUser}
-                getWeatherIcon={this.getWeatherIcon}
               />
             }
           />
@@ -100,4 +95,12 @@ class App extends Component {
   }
 }
 
-export default connect()(App);
+function mapStateToProps(state) {
+  return {
+    userImage: state.userImage,
+    currentUser: state.currentUser,
+    weatherIcon: state.weatherIcon
+  }
+}
+
+export default connect(mapStateToProps)(App);

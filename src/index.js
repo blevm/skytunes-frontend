@@ -6,22 +6,16 @@ import registerServiceWorker from './registerServiceWorker';
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { reducer } from './reducer';
 
-const initialState = {
-  //set default state values here
-}
-
-const reducer = (state = initialState, action) => {
-  return state;
-}
 
 const store = createStore(reducer);
 
-const action = {
-  type: "CLICK_EVENT" //variety of things - a string in all caps separated by underscores
-}
-
-store.dispatch(action);
+// const action = {
+//   type: "CLICK_EVENT" //variety of things - a string in all caps separated by underscores
+// }
+//
+// store.dispatch(action);
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 registerServiceWorker();
