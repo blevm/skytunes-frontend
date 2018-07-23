@@ -1,31 +1,32 @@
 import React from 'react';
 import SongList from '../components/SongList';
+import { connect } from 'react-redux';
+import { fetchSongRecs } from '../actions';
 
 class RecommendationsContainer extends React.Component {
-  constructor() {
-    super()
-
-    this.state = {
-      tracks: []
-    }
-  }
 
   componentDidMount() {
-    fetch(`http://localhost:4000/api/v1/${this.props.currentUser}/${this.props.weatherIcon}/recommended-tracks`)
-    .then(resp => resp.json())
-    .then(data => this.setState({
-      tracks: data.tracks
-    }, () => console.log(this.state)))
+    this.props.fetchSongRecs(this.props.currentUser, this.props.weatherIcon)
   }
 
   render() {
     return(
       <React.Fragment>
-      {(this.state.tracks !== []) ? <SongList tracks={this.state.tracks}/> : null}
+        {(this.props.tracks !== [])
+          ? <SongList />
+          : null
+        }
       </React.Fragment>
     )
   }
-
 }
 
-export default RecommendationsContainer;
+function mapStateToProps(state) {
+  return {
+    tracks: state.music.tracks,
+    currentUser: state.user.currentUser,
+    weatherIcon: state.weather.weatherIcon,
+  }
+}
+
+export default connect(mapStateToProps, { fetchSongRecs })(RecommendationsContainer);

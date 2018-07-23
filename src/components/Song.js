@@ -2,7 +2,7 @@ import React from 'react';
 
 const Song = (props) => {
   return (
-    <tr>
+    <tr key={props.track.id}>
     <audio src={props.track.preview_url} controls="play">
       Your browser does not support the audio element.
     </audio>

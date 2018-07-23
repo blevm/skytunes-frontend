@@ -7,25 +7,9 @@ import { connect } from 'react-redux';
 import { setUser } from '../actions';
 
 class WeatherContainer extends React.Component {
-  // constructor() {
-  //   super()
-  //
-  //   this.state = {
-  //     zipSearch: '',
-  //     citySearch: '',
-  //     weatherCity: '',
-  //     weatherTitle: '',
-  //     weatherSummary: '',
-  //     temperature: ''
-  //   }
-  // }
-
-  // let { zipSearch, citySearch, weatherSummary, temperature } = this.props
 
   componentDidMount() {
-    if (this.props.currentUser !== qs.parse(this.props.location.search).username) {
-      this.props.setUser(qs.parse(this.props.location.search))
-    }
+    this.props.setUser(qs.parse(this.props.location.search))
   }
 
   render() {
@@ -33,10 +17,10 @@ class WeatherContainer extends React.Component {
       <React.Fragment>
         <div>YEAH WE LOGGED IN OMG</div>
         <WeatherSearch/>
-      {(this.props.weatherSummary !== '' || this.props.temperature !== '')
-        ? <CurrentWeather />
-        : null
-      }
+        {(this.props.weatherSummary !== '' || this.props.temperature !== '')
+          ? <CurrentWeather />
+          : null
+        }
       </React.Fragment>
     )
   }
@@ -44,9 +28,9 @@ class WeatherContainer extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    currentUser: state.currentUser,
-    weatherSummary: state.weatherSummary,
-    temperature: state.temperature
+    currentUser: state.user.currentUser,
+    weatherSummary: state.weather.weatherSummary,
+    temperature: state.weather.temperature
   }
 }
 

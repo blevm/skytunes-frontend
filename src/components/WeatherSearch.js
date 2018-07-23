@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { zipWeatherSearch, cityWeatherSearch } from '../actions';
+import { fetchWeatherByZip, fetchWeatherByCity } from '../actions';
 
 class WeatherSearch extends React.Component {
   constructor() {
-    super()
+    super();
 
     this.state = {
       zipSearch: '',
@@ -15,7 +15,7 @@ class WeatherSearch extends React.Component {
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
-    }, ()=>{console.log(this.state)})
+    }, ()=>{console.log('in weatherSearch', this.state)})
   }
 
   render() {
@@ -24,7 +24,7 @@ class WeatherSearch extends React.Component {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            this.props.zipWeatherSearch(this.state.zipSearch)}}
+            this.props.fetchWeatherByZip(this.state.zipSearch)}}
         >
           <input
             type="text"
@@ -41,7 +41,7 @@ class WeatherSearch extends React.Component {
         </form>
         <form onSubmit={(e) => {
             e.preventDefault();
-            this.props.cityWeatherSearch(this.state.citySearch)}}>
+            this.props.fetchWeatherByCity(this.state.citySearch)}}>
           <input
             type="text"
             name="citySearch"
@@ -58,14 +58,6 @@ class WeatherSearch extends React.Component {
       </React.Fragment>
     )
   }
-
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    zipWeatherSearch: (search) => dispatch(zipWeatherSearch(search)),
-    cityWeatherSearch: (search) => dispatch(cityWeatherSearch(search))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(WeatherSearch);
+export default connect(null, { fetchWeatherByZip, fetchWeatherByCity })(WeatherSearch);
