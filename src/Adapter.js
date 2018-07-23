@@ -15,4 +15,15 @@ export default class Adapter {
     return fetch(`${URL}/${user}/${weather}/recommended-tracks`)
     .then(resp => resp.json())
   }
+
+  static makeAPlaylist(user, title, tracks) {
+    let trackList = tracks.map(track => track.uri).join(',')
+    let body = {
+      method: 'POST',
+      body: JSON.stringify({
+        songs: trackList
+      })
+    }
+    return fetch(`${URL}/${user}/${title}/new-playlist`, body)
+  }
 }

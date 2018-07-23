@@ -26,9 +26,7 @@ class App extends Component {
           />
         </Router>
         {(this.props.weatherIcon !== '')
-          ? <RecommendationsContainer
-          currentUser={this.props.currentUser} weatherIcon={this.props.weatherIcon}
-          />
+          ? <RecommendationsContainer />
           : null}
       </div>
     );
