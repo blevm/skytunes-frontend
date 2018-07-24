@@ -20,7 +20,10 @@ class WeatherSearch extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div
+        style={{
+          padding: '20px'
+        }}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -55,7 +58,7 @@ class WeatherSearch extends React.Component {
             value="Get the Weather"
           />
         </form>
-      </React.Fragment>
+      </div>
     )
   }
 }

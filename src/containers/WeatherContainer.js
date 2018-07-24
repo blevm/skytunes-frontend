@@ -15,7 +15,6 @@ class WeatherContainer extends React.Component {
   render() {
     return(
       <React.Fragment>
-        <div>YEAH WE LOGGED IN OMG</div>
         <WeatherSearch/>
         {(this.props.weatherSummary !== '' || this.props.temperature !== '')
           ? <CurrentWeather />

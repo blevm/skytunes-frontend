@@ -25,6 +25,26 @@ export function setUser(data) {
   }
 }
 
+export function addTrack(data) {
+  return {
+    type: "ADD_TRACK",
+    payload: data
+  }
+}
+
+export function removeTrack(data) {
+  return {
+    type: "REMOVE_TRACK",
+    payload: data
+  }
+}
+
+export function selectOwnSongs() {
+  return {
+    type: "SELECT_SONGS"
+  }
+}
+
 export function fetchWeatherByZip(zip) {
   return function(dispatch) {
     Adapter.getWeatherByZip(zip)
