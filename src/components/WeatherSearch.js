@@ -1,26 +1,66 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { fetchWeatherByZip, fetchWeatherByCity } from '../actions';
 
-const WeatherSearch = (props) => {
-  return (
-    <React.Fragment>
-      <form
-        onSubmit={(e) => {props.handleSubmit(e)}}
-      >
-      <input
-        type="text"
-        placeholder="Enter City/State or Zip Code"
-        value={props.searchTerm}
-        style={{width: '300px'}}
-        onChange={(event) => props.handleChange(event)}
-      />
-      <input
-        type="submit"
-        value="Get the Weather"
+class WeatherSearch extends React.Component {
+  constructor() {
+    super();
 
-      />
-    </form>
-    </React.Fragment>
-  )
+    this.state = {
+      zipSearch: '',
+      citySearch: ''
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    }, ()=>{console.log('in weatherSearch', this.state)})
+  }
+
+  render() {
+    return (
+      <div
+        style={{
+          padding: '20px'
+        }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            this.props.fetchWeatherByZip(this.state.zipSearch)}}
+        >
+          <input
+            type="text"
+            placeholder="Enter Zip Code"
+            name="zipSearch"
+            value={this.state.zipSearch}
+            style={{width: '300px'}}
+            onChange={(event) => this.handleChange(event)}
+          />
+          <input
+            type="submit"
+            value="Get the Weather"
+          />
+        </form>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            this.props.fetchWeatherByCity(this.state.citySearch)}}>
+          <input
+            type="text"
+            name="citySearch"
+            placeholder="Enter City, State"
+            value={this.state.citySearch}
+            style={{width: '300px'}}
+            onChange={(event) => this.handleChange(event)}
+          />
+          <input
+            type="submit"
+            value="Get the Weather"
+          />
+        </form>
+      </div>
+    )
+  }
 }
 
-export default WeatherSearch;
+export default connect(null, { fetchWeatherByZip, fetchWeatherByCity })(WeatherSearch);

@@ -1,50 +1,42 @@
 import React from 'react';
 import WeatherSearch from '../components/WeatherSearch';
 import CurrentWeather from '../components/CurrentWeather';
+import { withRouter } from 'react-router-dom';
+import qs from "query-string";
+import { connect } from 'react-redux';
+import { setUser } from '../actions';
 
 class WeatherContainer extends React.Component {
-  constructor() {
-    super()
 
-    this.state = {
-      searchTerm: '',
-      weatherTitle: '',
-      weatherSummary: '',
-      temperature: ''
-    }
-  }
-
-  handleChange = (e) => {
-    this.setState({
-      searchTerm: e.target.value
-    }, ()=>{console.log(this.state.searchTerm)})
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault()
-    fetch(`http://localhost:4000/api/v1/search-zip/${this.state.searchTerm}`)
-    .then(resp =>  resp.json())
-    .then(data => this.setState({
-      weatherTitle: data.currently.summary,
-      weatherSummary: data.minutely.summary,
-      temperature: data.currently.temperature
-    }))
+  componentDidMount() {
+    this.props.setUser(qs.parse(this.props.location.search))
   }
 
   render() {
     return(
       <React.Fragment>
-        <div>YEAH WE LOGGED IN OMG</div>
-        <WeatherSearch
-          searchTerm={this.state.searchTerm}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
-      {(this.state.weatherSummary !== '' || this.state.temperature !== '') ?
-      <CurrentWeather {...this.state} /> : null}
+        <WeatherSearch/>
+        {(this.props.weatherSummary !== '' || this.props.temperature !== '')
+          ? <CurrentWeather />
+          : null
+        }
       </React.Fragment>
     )
   }
 }
 
-export default WeatherContainer
+function mapStateToProps(state) {
+  return {
+    currentUser: state.user.currentUser,
+    weatherSummary: state.weather.weatherSummary,
+    temperature: state.weather.temperature
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setUser: data => dispatch(setUser(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WeatherContainer));
