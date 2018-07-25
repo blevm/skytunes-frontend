@@ -1,9 +1,17 @@
 import Adapter from './Adapter';
 
 export function weatherSearch(data) {
+  let dataToSend = {
+    weatherCity: (data.city) ? data.city : '',
+    weatherTitle: (data.currently) ? data.currently.summary : '',
+    weatherSummary: (data.minutely) ? data.minutely.summary : '',
+    temperature: (data.currently) ? data.currently.temperature : '',
+    weatherIcon: (data.currently) ? data.currently.icon : ''
+  }
+  
   return {
     type: "SEARCH",
-    payload: data
+    payload: dataToSend
   }
 }
 
@@ -48,26 +56,28 @@ export function selectOwnSongs() {
 export function fetchWeatherByZip(zip) {
   return function(dispatch) {
     Adapter.getWeatherByZip(zip)
-    .then(data => dispatch(weatherSearch({
-      weatherCity: (data.city) ? data.city : '',
-      weatherTitle: (data.currently) ? data.currently.summary : '',
-      weatherSummary: (data.minutely) ? data.minutely.summary : '',
-      temperature: (data.currently) ? data.currently.temperature : '',
-      weatherIcon: (data.currently) ? data.currently.icon : ''
-    })))
+    .then(data => dispatch(weatherSearch(data)))
   }
 }
 
 export function fetchWeatherByCity(city) {
   return function(dispatch) {
     Adapter.getWeatherByCity(city)
-    .then(data => dispatch(weatherSearch({
-      weatherCity: (data.city) ? data.city : '',
-      weatherTitle: (data.currently) ? data.currently.summary : '',
-      weatherSummary: (data.minutely) ? data.minutely.summary : '',
-      temperature: (data.currently) ? data.currently.temperature : '',
-      weatherIcon: (data.currently) ? data.currently.icon : ''
-    })))
+    .then(data => dispatch(weatherSearch(data)))
+  }
+}
+
+export function fetchWeatherByCurrentLocation(resp) {
+  return function(dispatch) {
+    Adapter.getWeatherByCurrentLocation(resp)
+    .then(data => dispatch(weatherSearch(data)))
+  }
+}
+
+export function fetchIntlWeather(resp) {
+  return function(dispatch) {
+    Adapter.getIntlWeather(resp)
+    .then(data => dispatch(weatherSearch(data)))
   }
 }
 

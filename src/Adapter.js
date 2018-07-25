@@ -1,6 +1,7 @@
 const URL = 'http://localhost:4000/api/v1';
 
 export default class Adapter {
+  
   static getWeatherByZip(search) {
     return fetch(`${URL}/search-zip/${search}`)
     .then(resp =>  resp.json())
@@ -8,6 +9,19 @@ export default class Adapter {
 
   static getWeatherByCity(search) {
     return fetch(`${URL}/search-city/${search}`)
+    .then(resp =>  resp.json())
+  }
+
+  static getIntlWeather(search) {
+    return fetch(`${URL}/search-intl/${search}`)
+    .then(resp =>  resp.json())
+  }
+
+  static getWeatherByCurrentLocation(result) {
+    let lat = result.coords.latitude.toString()
+    let long = result.coords.longitude.toString()
+
+    return fetch(`${URL}/search-current/?lat=${lat}&long=${long}`)
     .then(resp =>  resp.json())
   }
 
@@ -26,4 +40,5 @@ export default class Adapter {
     }
     return fetch(`${URL}/${user}/${title}/new-playlist`, body)
   }
+
 }

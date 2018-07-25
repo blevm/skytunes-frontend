@@ -13,6 +13,7 @@ class NavBar extends Component {
     return (
       <div>
         <Menu pointing secondary
+          size='large'
           style={{background: 'rgba(255, 255, 255, 0.5)'}}
           >
           <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
@@ -34,7 +35,7 @@ class NavBar extends Component {
               style={{
                 padding: '2px'
               }}>
-              <img src={this.props.userImage} class="rounded" />
+              <img src={this.props.userImage} className="rounded" />
             </Menu.Item>
             <Menu.Item
               style={{

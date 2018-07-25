@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchWeatherByZip, fetchWeatherByCity } from '../actions';
+import { fetchWeatherByZip, fetchWeatherByCity, fetchWeatherByCurrentLocation, fetchIntlWeather } from '../actions';
+import Adapter from '../Adapter';
 
 class WeatherSearch extends React.Component {
   constructor() {
@@ -8,7 +9,8 @@ class WeatherSearch extends React.Component {
 
     this.state = {
       zipSearch: '',
-      citySearch: ''
+      citySearch: '',
+      intlSearch: ''
     }
   }
 
@@ -31,7 +33,7 @@ class WeatherSearch extends React.Component {
         >
           <input
             type="text"
-            placeholder="Enter Zip Code"
+            placeholder="Search in the US by Zip Code"
             name="zipSearch"
             value={this.state.zipSearch}
             style={{width: '300px'}}
@@ -48,7 +50,7 @@ class WeatherSearch extends React.Component {
           <input
             type="text"
             name="citySearch"
-            placeholder="Enter City, State"
+            placeholder="Search in the US - Enter 'City, State'"
             value={this.state.citySearch}
             style={{width: '300px'}}
             onChange={(event) => this.handleChange(event)}
@@ -58,9 +60,33 @@ class WeatherSearch extends React.Component {
             value="Get the Weather"
           />
         </form>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            this.props.fetchIntlWeather(this.state.intlSearch)}}>
+          <input
+            type="text"
+            name="intlSearch"
+            placeholder="Search Internationally - Enter 'City, Country'"
+            value={this.state.intlSearch}
+            style={{width: '300px'}}
+            onChange={(event) => this.handleChange(event)}
+          />
+          <input
+            type="submit"
+            value="Get the Weather"
+          />
+        </form>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            navigator.geolocation.getCurrentPosition((resp)=>this.props.fetchWeatherByCurrentLocation(resp))}}>
+          <input
+            type="submit"
+            value="Search By Current Location"
+          />
+        </form>
       </div>
     )
   }
 }
 
-export default connect(null, { fetchWeatherByZip, fetchWeatherByCity })(WeatherSearch);
+export default connect(null, { fetchWeatherByZip, fetchWeatherByCity, fetchWeatherByCurrentLocation, fetchIntlWeather })(WeatherSearch);

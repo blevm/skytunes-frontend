@@ -22,7 +22,10 @@ class App extends Component {
         {(this.props.weatherIcon !== '')
           ? <RecommendationsContainer />
           : null}
-          <br></br>
+        {(this.props.currentUser === '')
+          ? <div className="home-page flex-fill" style={{align: "center"}}/>
+          : null}
+        <br></br>
       </div>
     );
   }
