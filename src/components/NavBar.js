@@ -1,55 +1,52 @@
 import React, { Component, Fragment } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { resetPage } from '../actions';
 
 class NavBar extends Component {
-  state = { activeItem: 'home' }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
-    const { activeItem } = this.state
-
     return (
       <div>
         <Menu pointing secondary
-          size='large'
-          style={{background: 'rgba(255, 255, 255, 0.5)'}}
+          size='big'
+          color='white'
+          style={{background: 'rgba(255, 255, 255, 0.1)', fontWeight: 'bold', fontFamily: 'Nunito, sans-serif'}}
           >
-          <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
           <Menu.Item
-            name='weather'
-            active={activeItem === 'messages'}
-            onClick={this.handleItemClick}
+            name='sky tunes'
+            style={{padding: '25px', color: 'white'}}
           />
           <Menu.Item
-            name='recommendations'
-            active={activeItem === 'friends'}
-            onClick={this.handleItemClick}
+            name='newWeatherSearch'
+            style={{padding: '25px', color: 'white'}}
+            onClick={() => this.props.resetPage()}
+          />
+          <Menu.Item
+            name='savedLocations'
+            style={{padding: '25px', color: 'white'}}
           />
           <Menu.Menu position='right'>
           {(this.props.currentUser !== '')
           ?
           <Fragment>
-            <Menu.Item
-              style={{
-                padding: '2px'
-              }}>
+            <Menu.Item>
               <img src={this.props.userImage} className="rounded" />
             </Menu.Item>
-            <Menu.Item
-              style={{
-                paddingLeft: '5px'
-              }}>
+            <Menu.Item style={{padding: '25px 20px 25px 0px', color: 'white'}} >
               <strong>{this.props.currentUser}</strong>
             </Menu.Item>
             <Menu.Item
+              color='white'
+              style={{padding: '25px', color: 'white'}}
               name='logout'
               href={`http://localhost:4000/api/v1/${this.props.currentUser}/logout`}
             />
           </Fragment>
           :
             <Menu.Item
+              color='white'
+              style={{padding: '25px', color: 'white', fontWeight: 'bold'}}
               name='login'
               href="http://localhost:4000/api/v1/login"
             />
@@ -69,4 +66,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(NavBar);
+function mapDispatchToProps(dispatch) {
+  return {
+    resetPage: () => dispatch(resetPage())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

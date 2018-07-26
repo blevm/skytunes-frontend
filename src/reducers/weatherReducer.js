@@ -1,7 +1,5 @@
 const initialState = {
   weatherIcon: '',
-  zipSearch: '',
-  citySearch: '',
   weatherCity: '',
   weatherTitle: '',
   weatherSummary: '',
@@ -18,6 +16,15 @@ function weatherReducer(state = initialState, action) {
         weatherSummary: action.payload.weatherSummary,
         temperature: action.payload.temperature,
         weatherIcon: action.payload.weatherIcon,
+      };
+    case "CLEAR_WEATHER":
+      return {
+        ...state,
+        weatherIcon: '',
+        weatherCity: '',
+        weatherTitle: '',
+        weatherSummary: '',
+        temperature: ''
       };
     default:
      return state;

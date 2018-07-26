@@ -34,6 +34,13 @@ function musicReducer(state = initialState, action) {
         ...state,
         selectSongs: true
       }
+    case "CLEAR_TRACKS":
+      return {
+        ...state,
+        tracks: [],
+        selectedTracks: [],
+        selectSongs: false,
+      }
     default:
      return state;
   }

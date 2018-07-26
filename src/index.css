@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 
 .content {
@@ -10,12 +10,29 @@ body {
   width: 100%;
   height: auto;
   padding: 0;
-  background: linear-gradient(217deg, #0052D4, #65C7F7, #9CECFB 70.71%) no-repeat center center fixed;
+  background: linear-gradient(180deg, #0052D4, #65C7F7, #9CECFB) no-repeat center center fixed;
 	background-repeat: no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+
+ input[type='text'] {
+  font-size: 30px;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 1.5px solid white;
+  margin: 0px 10px;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 1; /* Firefox */
 }
 
 .rounded {
@@ -30,7 +47,6 @@ body {
   background: #FFFFFF;
 }
 
-
 .home-page {
   /* width:150px; */
   min-height: 100vh;
@@ -38,4 +54,8 @@ body {
   background-position:center center;
   background-repeat:no-repeat;
   background-image:url('./skytunesfullscreen-01.png');
+}
+
+.hovering:hover {
+  text-decoration: underline;
 }

@@ -36,7 +36,7 @@ class Song extends React.Component {
         <Table.Cell>{this.props.track.name}</Table.Cell>
         <Table.Cell>{this.props.track.artists[0].name}</Table.Cell>
           <Table.Cell>
-            <Icon link name={(this.state.playing) ? 'pause circle outline' : 'play circle outline'} onClick={() => this.playAudio(this.props.track.id)}/>
+            <Icon size='large' link name={(this.state.playing) ? 'pause circle outline' : 'play circle outline'} onClick={() => this.playAudio(this.props.track.id)}/>
             <audio
               id={this.props.track.id}
               src={this.props.track.preview_url}

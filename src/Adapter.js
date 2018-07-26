@@ -1,7 +1,7 @@
 const URL = 'http://localhost:4000/api/v1';
 
 export default class Adapter {
-  
+
   static getWeatherByZip(search) {
     return fetch(`${URL}/search-zip/${search}`)
     .then(resp =>  resp.json())
