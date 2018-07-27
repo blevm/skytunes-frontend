@@ -29,6 +29,7 @@ class WeatherSearch extends React.Component {
   }
 
   render() {
+    console.log('current User in Weather Search', this.props.currentUser)
     return (
       <div
         style={{
@@ -47,7 +48,8 @@ class WeatherSearch extends React.Component {
               style={{margin: '30px 0px'}}
               onSubmit={(e) => {
               e.preventDefault();
-              this.props.fetchWeatherByZip(this.state.zipSearch)}}
+              console.log('were in the onSubmit', this.state.zipSearch)
+              this.props.fetchWeatherByZip(this.props.currentUser, this.state.zipSearch)}}
             >
               <input
                 type="text"
@@ -57,8 +59,8 @@ class WeatherSearch extends React.Component {
                 style={{width: '400px'}}
                 onChange={(event) => this.handleChange(event)}
               />
-              <Button size='large' type='submit' style={{fontFamily: 'Nunito, sans-serif', borderRadius: '30px'}} >
-                  Get the Weather
+              <Button size='large' type='submit' style={{fontFamily: 'Nunito, sans-serif', borderRadius: '30px'}}>
+                Get the Weather
               </Button>
           </form>
           : null
@@ -69,7 +71,7 @@ class WeatherSearch extends React.Component {
               style={{margin: '30px 0px'}}
               onSubmit={(e) => {
                 e.preventDefault();
-                this.props.fetchWeatherByCity(this.state.citySearch)}}>
+                this.props.fetchWeatherByCity(this.props.currentUser, this.state.citySearch)}}>
               <input
                 type="text"
                 name="citySearch"
@@ -90,7 +92,7 @@ class WeatherSearch extends React.Component {
             style={{margin: '30px 0px'}}
             onSubmit={(e) => {
               e.preventDefault();
-              this.props.fetchIntlWeather(this.state.intlSearch)}}>
+              this.props.fetchIntlWeather(this.props.currentUser, this.state.intlSearch)}}>
             <input
               type="text"
               name="intlSearch"
@@ -107,7 +109,7 @@ class WeatherSearch extends React.Component {
         }
         <form onSubmit={(e) => {
             e.preventDefault();
-            navigator.geolocation.getCurrentPosition((resp)=>this.props.fetchWeatherByCurrentLocation(resp))}}>
+            navigator.geolocation.getCurrentPosition((resp)=>this.props.fetchWeatherByCurrentLocation(this.props.currentUser, resp))}}>
           <Button inverted size='big' type='submit' style={{marginTop: '35px', fontFamily: 'Nunito, sans-serif', borderRadius: '30px'}} >
             Search By Current Location
           </Button>
@@ -117,4 +119,10 @@ class WeatherSearch extends React.Component {
   }
 }
 
-export default connect(null, { fetchWeatherByZip, fetchWeatherByCity, fetchWeatherByCurrentLocation, fetchIntlWeather })(WeatherSearch);
+function mapStateToProps(state) {
+  return {
+    currentUser: state.user.currentUser,
+  }
+}
+
+export default connect(mapStateToProps, { fetchWeatherByZip, fetchWeatherByCity, fetchWeatherByCurrentLocation, fetchIntlWeather })(WeatherSearch);

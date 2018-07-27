@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 import WeatherContainer from './containers/WeatherContainer';
 import RecommendationsContainer from './containers/RecommendationsContainer';
 import { connect } from 'react-redux';
 import NavBar from './components/NavBar';
+import SavedLocations from './components/SavedLocations';
 
 
 class App extends Component {
@@ -14,10 +15,13 @@ class App extends Component {
       <div className="App">
         <NavBar />
         <Router>
-          <Route exact path="/success" component={() =>
-              <WeatherContainer {...this.props} />
-            }
-          />
+          <React.Fragment>
+            <Route exact path="/success" component={() =>
+                <WeatherContainer {...this.props} />
+              }
+            />
+          <Route exact path={`${this.props.currentUser}/locations`} component={SavedLocations} />
+          </React.Fragment>
         </Router>
         {(this.props.weatherIcon !== '')
           ? <RecommendationsContainer />
@@ -39,4 +43,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));

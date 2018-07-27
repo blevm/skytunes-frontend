@@ -21,7 +21,7 @@ class SongList extends React.Component {
           </Table.Header>
 
           <Table.Body style={{overflowX: 'scroll'}}>
-            {(this.props.tracks) ? this.props.tracks.map(track => <Song track={track} selectSongs={this.props.selectSongs} />) : <tr>'No Songs Yet'</tr>}
+            {(this.props.tracks) ? this.props.tracks.map(track => <Song key={track.id} track={track} selectSongs={this.props.selectSongs} />) : <tr>'No Songs Yet'</tr>}
           </Table.Body>
 
           <Table.Footer fullWidth>
@@ -31,7 +31,7 @@ class SongList extends React.Component {
                   this.props.createPlaylistThenResetPage(this.props.currentUser, `It's ${this.props.weatherTitle} in ${this.props.weatherCity}`, ((this.props.selectedTracks.length > 0) ? this.props.selectedTracks : this.props.tracks))}}>
                   <Icon name='music' />{(!this.props.selectSongs) ? 'Create A Spotify Playlist With All Songs' : 'Create A Spotify Playlist With Selected Songs'}
                 </Button> : null}
-                <Button size='small' floated='left 'onClick={this.props.selectOwnSongs}>Select From These Tracks</Button>
+                <Button size='small' floated='left' onClick={this.props.selectOwnSongs}>Select From These Tracks</Button>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>

@@ -1,43 +1,48 @@
-import React, { Component, Fragment } from 'react';
-import { Menu, Button } from 'semantic-ui-react';
+import React, { Fragment } from 'react';
+import { Menu } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { resetPage } from '../actions';
+import { NavLink } from 'react-router-dom';
 
-class NavBar extends Component {
+class NavBar extends React.Component {
 
   render() {
     return (
       <div>
         <Menu pointing secondary
-          size='big'
-          color='white'
+          size='large'
           style={{background: 'rgba(255, 255, 255, 0.1)', fontWeight: 'bold', fontFamily: 'Nunito, sans-serif'}}
           >
           <Menu.Item
             name='sky tunes'
             style={{padding: '25px', color: 'white'}}
           />
-          <Menu.Item
-            name='newWeatherSearch'
-            style={{padding: '25px', color: 'white'}}
-            onClick={() => this.props.resetPage()}
-          />
-          <Menu.Item
-            name='savedLocations'
-            style={{padding: '25px', color: 'white'}}
-          />
+          {(this.props.currentUser) ?
+          <React.Fragment>
+            <Menu.Item
+              name='newWeatherSearch'
+              style={{padding: '25px', color: 'white'}}
+              onClick={() => this.props.resetPage()}
+            />
+            <Menu.Item
+              as={NavLink}
+              to={`${this.props.currentUser}/locations`}
+              name='savedLocations'
+              style={{padding: '25px', color: 'white'}}
+            />
+          </React.Fragment>
+          : null}
           <Menu.Menu position='right'>
           {(this.props.currentUser !== '')
           ?
           <Fragment>
             <Menu.Item>
-              <img src={this.props.userImage} className="rounded" />
+              <img alt="Spotify Profile" src={this.props.userImage} className="rounded" />
             </Menu.Item>
             <Menu.Item style={{padding: '25px 20px 25px 0px', color: 'white'}} >
               <strong>{this.props.currentUser}</strong>
             </Menu.Item>
             <Menu.Item
-              color='white'
               style={{padding: '25px', color: 'white'}}
               name='logout'
               href={`http://localhost:4000/api/v1/${this.props.currentUser}/logout`}
@@ -45,7 +50,6 @@ class NavBar extends Component {
           </Fragment>
           :
             <Menu.Item
-              color='white'
               style={{padding: '25px', color: 'white', fontWeight: 'bold'}}
               name='login'
               href="http://localhost:4000/api/v1/login"

@@ -65,30 +65,30 @@ export function selectOwnSongs() {
   }
 }
 
-export function fetchWeatherByZip(zip) {
+export function fetchWeatherByZip(user, zip) {
   return function(dispatch) {
-    Adapter.getWeatherByZip(zip)
+    Adapter.getWeatherByZip(user, zip)
     .then(data => dispatch(weatherSearch(data)))
   }
 }
 
-export function fetchWeatherByCity(city) {
+export function fetchWeatherByCity(user, city) {
   return function(dispatch) {
-    Adapter.getWeatherByCity(city)
+    Adapter.getWeatherByCity(user, city)
     .then(data => dispatch(weatherSearch(data)))
   }
 }
 
-export function fetchWeatherByCurrentLocation(resp) {
+export function fetchWeatherByCurrentLocation(user, resp) {
   return function(dispatch) {
-    Adapter.getWeatherByCurrentLocation(resp)
+    Adapter.getWeatherByCurrentLocation(user, resp)
     .then(data => dispatch(weatherSearch(data)))
   }
 }
 
-export function fetchIntlWeather(resp) {
+export function fetchIntlWeather(user, resp) {
   return function(dispatch) {
-    Adapter.getIntlWeather(resp)
+    Adapter.getIntlWeather(user, resp)
     .then(data => dispatch(weatherSearch(data)))
   }
 }

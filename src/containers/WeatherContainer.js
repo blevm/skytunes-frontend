@@ -13,13 +13,14 @@ class WeatherContainer extends React.Component {
   }
 
   render() {
+    console.log('condition', (this.props.weatherSummary !== '' || this.props.temperature), this.props)
     return(
       <React.Fragment>
-        {(this.props.weatherSummary === '' || this.props.temperature === '')
-          ? <WeatherSearch />
-          : null
+        {(this.props.weatherSummary !== '' || this.props.temperature)
+          ? null
+          : <WeatherSearch />
         }
-        <div class="ui loader"></div>
+        <div className="ui loader"></div>
         {(this.props.weatherSummary !== '' || this.props.temperature !== '')
           ? <CurrentWeather />
           : null
@@ -43,4 +44,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WeatherContainer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WeatherContainer));
