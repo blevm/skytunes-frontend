@@ -1,6 +1,5 @@
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Nunito', sans-serif;
 }
 
@@ -9,13 +8,19 @@ body {
   min-width: 1024px;
   width: 100%;
   height: auto;
-  padding: 0;
+  padding-top: 70px;
   background: linear-gradient(180deg, #0052D4, #65C7F7, #9CECFB) no-repeat center center fixed;
 	background-repeat: no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+.actual-content {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  overflow: hidden;
 }
 
 
@@ -53,9 +58,16 @@ body {
   background-size:cover;
   background-position:center center;
   background-repeat:no-repeat;
-  background-image:url('./skytunesfullscreen-01.png');
+  background-image:url('./skytunesfullscreen-03.png');
 }
 
 .hovering:hover {
   text-decoration: underline;
+}
+
+.footer-buttons {
+  margin: 10px auto;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 }

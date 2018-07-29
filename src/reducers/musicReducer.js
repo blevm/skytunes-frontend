@@ -13,6 +13,19 @@ function musicReducer(state = initialState, action) {
         ...state,
         tracks: action.payload.tracks
       }
+    case "MORE_RECOMMENDATIONS":
+      if (!state.selectSongs) {
+        return {
+          ...state,
+          tracks: state.tracks.concat(action.payload.tracks)
+        }
+      } else {
+        return {
+          ...state,
+          tracks: state.tracks.concat(action.payload.tracks),
+          selectedTracks: state.selectedTracks.concat(action.payload.tracks)
+        }
+      }
     case "ADD_TRACK":
       console.log('adding', action.payload)
       return {
@@ -32,7 +45,14 @@ function musicReducer(state = initialState, action) {
     case "SELECT_SONGS":
       return {
         ...state,
-        selectSongs: true
+        selectSongs: true,
+        selectedTracks: [...state.tracks]
+      }
+    case "CLEAR_SELECTIONS":
+      return {
+        ...state,
+        selectSongs: false,
+        selectedTracks: []
       }
     case "CLEAR_TRACKS":
       return {

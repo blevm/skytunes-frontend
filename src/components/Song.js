@@ -7,7 +7,7 @@ import { addTrack, removeTrack } from '../actions';
 class Song extends React.Component {
   state = {
     playing: false,
-    checked: false
+    checked: true
   }
 
   playAudio = (id) => {
@@ -24,7 +24,6 @@ class Song extends React.Component {
     }, () => {
       (this.state.checked) ? this.props.addTrack(data) : this.props.removeTrack(data)
     })
-
   }
 
   render() {
@@ -34,7 +33,7 @@ class Song extends React.Component {
           <Checkbox floated='right' checked={this.state.checked} onChange={() => this.handleCheck(this.props.track)}/>
         </Table.Cell>
         <Table.Cell>{this.props.track.name}</Table.Cell>
-        <Table.Cell>{this.props.track.artists[0].name}</Table.Cell>
+        <Table.Cell>{(this.props.track.artists) ? this.props.track.artists[0].name : 'N/A'}</Table.Cell>
           <Table.Cell>
             <Icon size='large' link name={(this.state.playing) ? 'pause circle outline' : 'play circle outline'} onClick={() => this.playAudio(this.props.track.id)}/>
             <audio

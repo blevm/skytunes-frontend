@@ -12,6 +12,7 @@ const CurrentWeather = ({ weatherCity, weatherTitle, weatherSummary, temperature
       {weatherSummary ? <p style={{fontFamily: 'Nunito, sans-serif'}}><em>{weatherSummary}</em></p> : null}
       {temperature ? <h2 style={{fontFamily: 'Nunito, sans-serif'}}>{temperature}˚F</h2> : null}
       </div>
+      <a href="https://darksky.net/poweredby/"><img src="https://darksky.net/dev/img/attribution/poweredby-oneline-darkbackground.png" style={{width: '15%', paddingTop: '5px'}}/></a>
     </div>
   )
 }

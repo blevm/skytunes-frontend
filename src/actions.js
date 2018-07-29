@@ -22,9 +22,15 @@ export function clearWeather() {
 }
 
 export function setTrackList(tracks) {
-  console.log('inSetTrackList', tracks)
   return {
     type: "SONGS_LOADED",
+    payload: tracks
+  }
+}
+
+export function addToTrackList(tracks) {
+  return {
+    type: "MORE_RECOMMENDATIONS",
     payload: tracks
   }
 }
@@ -65,6 +71,12 @@ export function selectOwnSongs() {
   }
 }
 
+export function backToAllTracks() {
+  return {
+    type: "CLEAR_SELECTIONS"
+  }
+}
+
 export function fetchWeatherByZip(user, zip) {
   return function(dispatch) {
     Adapter.getWeatherByZip(user, zip)
@@ -97,6 +109,13 @@ export function fetchSongRecs(user, weather) {
   return function(dispatch) {
     Adapter.getSongRecommendations(user, weather)
     .then(data => dispatch(setTrackList(data)))
+  }
+}
+
+export function fetchMoreSongRecs(user, weather) {
+  return function(dispatch) {
+    Adapter.getMoreSongRecommendations(user, weather)
+    .then(data => dispatch(addToTrackList(data)))
   }
 }
 

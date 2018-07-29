@@ -62,6 +62,7 @@ class WeatherSearch extends React.Component {
               <Button size='large' type='submit' style={{fontFamily: 'Nunito, sans-serif', borderRadius: '30px'}}>
                 Get the Weather
               </Button>
+              <p>Powered by <a href="https://darksky.net/poweredby/" style={{color:'white'}}>Dark Sky</a> and <a href="https://openweathermap.org/" style={{color:'white'}}>OpenWeatherMap</a></p>
           </form>
           : null
         }
@@ -83,6 +84,7 @@ class WeatherSearch extends React.Component {
               <Button size='large' type='submit' style={{fontFamily: 'Nunito, sans-serif', borderRadius: '30px'}} >
                   Get the Weather
               </Button>
+              <p>Powered by <a href="https://darksky.net/poweredby/" style={{color:'white'}}>Dark Sky</a> and <a href="https://geocode.xyz/" style={{color:'white'}}>Geocode.xyz</a></p>
             </form>
           : null
         }
@@ -104,16 +106,18 @@ class WeatherSearch extends React.Component {
           <Button size='large' type='submit' style={{fontFamily: 'Nunito, sans-serif', borderRadius: '30px'}} >
               Get the Weather
           </Button>
+          <p>Powered by <a href="https://darksky.net/poweredby/" style={{color:'white'}}>Dark Sky</a> and <a href="https://geocode.xyz/" style={{color:'white'}}>Geocode.xyz</a></p>
           </form>
           : null
         }
         <form onSubmit={(e) => {
             e.preventDefault();
             navigator.geolocation.getCurrentPosition((resp)=>this.props.fetchWeatherByCurrentLocation(this.props.currentUser, resp))}}>
-          <Button inverted size='big' type='submit' style={{marginTop: '35px', fontFamily: 'Nunito, sans-serif', borderRadius: '30px'}} >
+          <Button inverted size='big' type='submit' style={{marginTop: '25px', fontFamily: 'Nunito, sans-serif', borderRadius: '30px'}} >
             Search By Current Location
           </Button>
         </form>
+        <a href="https://darksky.net/poweredby/"><img src="https://darksky.net/dev/img/attribution/poweredby-oneline.png" style={{width: '15%', paddingTop: '25px'}}/></a>
       </div>
     )
   }

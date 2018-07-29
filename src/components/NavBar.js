@@ -9,14 +9,14 @@ class NavBar extends React.Component {
   render() {
     return (
       <div>
-        <Menu pointing secondary
-          size='large'
+        <Menu pointing secondary 
+          className='fixed'
+          size='huge'
           style={{background: 'rgba(255, 255, 255, 0.1)', fontWeight: 'bold', fontFamily: 'Nunito, sans-serif'}}
           >
-          <Menu.Item
-            name='sky tunes'
-            style={{padding: '25px', color: 'white'}}
-          />
+          <Menu.Item>
+            <img alt="sky tunes" style={{width: '150px'}} src={require('../skytuneslogo.png')} />
+          </Menu.Item>
           {(this.props.currentUser) ?
           <React.Fragment>
             <Menu.Item
@@ -51,7 +51,7 @@ class NavBar extends React.Component {
           :
             <Menu.Item
               style={{padding: '25px', color: 'white', fontWeight: 'bold'}}
-              name='login'
+              name='loginThroughSpotify'
               href="http://localhost:4000/api/v1/login"
             />
           }

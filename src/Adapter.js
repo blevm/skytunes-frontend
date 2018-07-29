@@ -30,7 +30,12 @@ export default class Adapter {
     return fetch(`${URL}/${user}/${weather}/recommended-tracks`)
     .then(resp => resp.json())
   }
-  
+
+  static getMoreSongRecommendations(user, weather) {
+    return fetch(`${URL}/${user}/${weather}/more-recommended-tracks`)
+    .then(resp => resp.json())
+  }
+
   static makeAPlaylist(user, title, tracks) {
     let trackList = tracks.map(track => track.uri).join(',')
     let body = {
