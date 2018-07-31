@@ -117,7 +117,7 @@ class WeatherSearch extends React.Component {
             Search By Current Location
           </Button>
         </form>
-        <a href="https://darksky.net/poweredby/"><img src="https://darksky.net/dev/img/attribution/poweredby-oneline.png" style={{width: '15%', paddingTop: '25px'}}/></a>
+        <a href="https://darksky.net/poweredby/"><img alt="Powered by Dark Sky" src="https://darksky.net/dev/img/attribution/poweredby-oneline.png" style={{width: '15%', paddingTop: '25px'}}/></a>
       </div>
     )
   }

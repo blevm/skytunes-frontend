@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import WeatherContainer from './containers/WeatherContainer';
 import RecommendationsContainer from './containers/RecommendationsContainer';
+import SuccessContainer from './containers/SuccessContainer';
 import { connect } from 'react-redux';
 import NavBar from './components/NavBar';
 import SavedLocations from './components/SavedLocations';
+import Adapter from './Adapter';
+import { refreshUser } from './actions';
 
 
 class App extends Component {
+  componentDidMount() {
+    if (Adapter.loggedIn()) {
+      this.props.refreshUser()
+    }
+  }
 
   render() {
     return (
       <div className="App">
         <NavBar />
-        <Router>
+        <Switch>
           <React.Fragment>
-            <Route exact path="/success" component={() =>
+            <Route path="/success" component={() =>
+                <SuccessContainer {...this.props} />
+              }
+            />
+            <Route path="/weather" component={() =>
                 <WeatherContainer {...this.props} />
               }
             />
-          <Route exact path={`${this.props.currentUser}/locations`} component={SavedLocations} />
+          <Route exact path='/locations' component={SavedLocations} />
           </React.Fragment>
-        </Router>
+        </Switch>
         {(this.props.weatherIcon !== '')
           ? <RecommendationsContainer />
           : null}
@@ -43,4 +55,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect(mapStateToProps, { refreshUser })(App));

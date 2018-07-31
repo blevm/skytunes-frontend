@@ -2,15 +2,23 @@ import React from 'react';
 import WeatherSearch from '../components/WeatherSearch';
 import CurrentWeather from '../components/CurrentWeather';
 import { withRouter } from 'react-router-dom';
-import qs from "query-string";
+// import qs from "query-string";
 import { connect } from 'react-redux';
-import { setUser } from '../actions';
 
 class WeatherContainer extends React.Component {
 
-  componentDidMount() {
-    this.props.setUser(qs.parse(this.props.location.search))
-  }
+  // componentDidMount() {
+  //   if (this.props.currentUser === '') {
+  //     let arr = this.props.location.pathname.split('/')
+  //     console.log(arr[arr.length-1])
+  //     this.props.fetchUser(arr[arr.length-1])
+  //     this.props.history.push('/success')
+  //   }
+  //   // let arr = this.props.location.pathname.split('/')
+  //   // console.log(arr[arr.length-1])
+  //   // this.props.fetchUser(arr[arr.length-1])
+  //   // this.props.history.push('/success')
+  // }
 
   render() {
     console.log('condition', (this.props.weatherSummary !== '' || this.props.temperature), this.props)
@@ -38,10 +46,10 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setUser: data => dispatch(setUser(data))
-  }
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     setUser: data => dispatch(setUser(data))
+//   }
+// }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WeatherContainer));
+export default withRouter(connect(mapStateToProps)(WeatherContainer));

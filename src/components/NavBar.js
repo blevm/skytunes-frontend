@@ -1,23 +1,24 @@
 import React, { Fragment } from 'react';
 import { Menu } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { resetPage } from '../actions';
-import { NavLink } from 'react-router-dom';
+import { resetPage, logoutUser } from '../actions';
+import { NavLink, Link, withRouter } from 'react-router-dom';
+import Adapter from '../Adapter';
 
 class NavBar extends React.Component {
 
   render() {
     return (
       <div>
-        <Menu pointing secondary 
+        <Menu pointing secondary
           className='fixed'
           size='huge'
-          style={{background: 'rgba(255, 255, 255, 0.1)', fontWeight: 'bold', fontFamily: 'Nunito, sans-serif'}}
+          style={{background: 'rgba(47, 100, 210, 1)', fontWeight: 'bold', fontFamily: 'Nunito, sans-serif'}}
           >
           <Menu.Item>
-            <img alt="sky tunes" style={{width: '150px'}} src={require('../skytuneslogo.png')} />
+            <Link to='/weather'><img alt="sky tunes" style={{width: '150px'}} src={require('../skytuneslogo.png')} /></Link>
           </Menu.Item>
-          {(this.props.currentUser) ?
+          {(Adapter.loggedIn()) ?
           <React.Fragment>
             <Menu.Item
               name='newWeatherSearch'
@@ -26,7 +27,7 @@ class NavBar extends React.Component {
             />
             <Menu.Item
               as={NavLink}
-              to={`${this.props.currentUser}/locations`}
+              exact to='/locations'
               name='savedLocations'
               style={{padding: '25px', color: 'white'}}
             />
@@ -45,14 +46,17 @@ class NavBar extends React.Component {
             <Menu.Item
               style={{padding: '25px', color: 'white'}}
               name='logout'
-              href={`http://localhost:4000/api/v1/${this.props.currentUser}/logout`}
+              onClick={() => {
+                this.props.logoutUser();
+                this.props.history.push('/');
+              }}
             />
           </Fragment>
           :
             <Menu.Item
               style={{padding: '25px', color: 'white', fontWeight: 'bold'}}
               name='loginThroughSpotify'
-              href="http://localhost:4000/api/v1/login"
+              href='http://localhost:4000/api/v1/login'
             />
           }
           </Menu.Menu>
@@ -70,10 +74,10 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    resetPage: () => dispatch(resetPage())
-  }
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     resetPage: () => dispatch(resetPage())
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default withRouter(connect(mapStateToProps, { resetPage, logoutUser })(NavBar));

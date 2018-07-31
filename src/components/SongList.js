@@ -26,7 +26,7 @@ class SongList extends Component {
           </Table.Body>
           </Table>
         </div>
-        <div className='footer-buttons'>
+        <div className='footer-buttons' style={{background: '#9CECFB'}}>
           {(!this.props.selectSongs) ? <Button icon labelPosition='left' size='large' style={{margin: '5px', fontFamily: 'Nunito, sans-serif'}} onClick={this.props.selectOwnSongs}><Icon name='check square outline' />Select From These Tracks</Button> :
           <Button size='large' style={{margin: '5px', fontFamily: 'Nunito, sans-serif'}} onClick={this.props.backToAllTracks}>Back To All Tracks</Button>}
           <Button secondary size='large' style={{margin: '5px', fontFamily: 'Nunito, sans-serif'}} onClick={() => this.props.fetchMoreSongRecs(this.props.currentUser, this.props.weatherIcon)}>Get More Song Recommendations</Button>

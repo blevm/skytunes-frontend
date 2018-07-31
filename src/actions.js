@@ -42,6 +42,7 @@ export function clearTracks() {
 }
 
 export function setUser(data) {
+  // debugger
   return {
     type: "SETTING_USER",
     payload: {
@@ -74,6 +75,25 @@ export function selectOwnSongs() {
 export function backToAllTracks() {
   return {
     type: "CLEAR_SELECTIONS"
+  }
+}
+
+export function fetchUser(k) {
+  return function(dispatch) {
+    Adapter.getUser(k)
+    .then(data => {
+      dispatch(setUser(data))
+      localStorage.setItem('token', data.token);
+    })
+  }
+}
+
+export function refreshUser() {
+  return function(dispatch) {
+    Adapter.persistUser()
+    .then(data => {
+      dispatch(setUser(data))
+    })
   }
 }
 
@@ -133,5 +153,15 @@ export function resetPage() {
   return function(dispatch) {
     dispatch(clearTracks())
     dispatch(clearWeather())
+  }
+}
+
+export function logoutUser() {
+  return function(dispatch) {
+    Adapter.logout()
+    .then(() => {
+      dispatch(setUser({username: '', image: ''}));
+      localStorage.removeItem('token');
+    })
   }
 }

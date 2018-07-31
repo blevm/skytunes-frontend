@@ -10,15 +10,23 @@ class SavedLocations extends React.Component {
   }
 
   componentDidMount() {
-    Adapter.getUserLocations(this.props.currentUser)
+    // debugger
+    Adapter.getUserLocations()
     .then(data => this.setState({
       locations: data
     }))
   }
 
   render() {
+    console.log(this.state.locations)
     return (
-      <div>OK WE'RE HERE</div>
+      <div>{(this.state.locations) ? this.state.locations.map(location =>
+        <React.Fragment>
+          <h1>{location.city}</h1>
+          <h1>{location.state}</h1>
+        </React.Fragment>
+      ) : null}
+      </div>
     )
   }
 
