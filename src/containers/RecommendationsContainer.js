@@ -6,7 +6,9 @@ import { fetchSongRecs } from '../actions';
 class RecommendationsContainer extends React.Component {
 
   componentDidMount() {
-    this.props.fetchSongRecs(this.props.currentUser, this.props.weatherIcon)
+    if (this.props.tracks.length === 0) {
+      this.props.fetchSongRecs(this.props.weatherIcon)
+    }
   }
 
   render() {
@@ -24,7 +26,6 @@ class RecommendationsContainer extends React.Component {
 function mapStateToProps(state) {
   return {
     tracks: state.music.tracks,
-    currentUser: state.user.currentUser,
     weatherIcon: state.weather.weatherIcon,
   }
 }

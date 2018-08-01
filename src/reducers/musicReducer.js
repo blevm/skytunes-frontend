@@ -27,16 +27,13 @@ function musicReducer(state = initialState, action) {
         }
       }
     case "ADD_TRACK":
-      console.log('adding', action.payload)
       return {
         ...state,
         selectedTracks: [...state.selectedTracks, action.payload]
       }
     case "REMOVE_TRACK":
-      console.log('removing', action.payload)
       let songList = [...state.selectedTracks]
       _.pull(songList, action.payload)
-      console.log(songList)
 
       return {
         ...state,

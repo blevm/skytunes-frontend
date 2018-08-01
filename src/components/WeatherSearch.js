@@ -19,28 +19,36 @@ class WeatherSearch extends React.Component {
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
-    }, ()=>{console.log('in weatherSearch', this.state)})
+    })
   }
 
   handleClick = (formName) => {
     this.setState({
       activeForm: formName
-    }, ()=>{console.log('changing the weather search form', this.state)})
+    })
+  }
+
+  fontSize = (search) => {
+    if (this.state.activeForm === search) {
+      return '1.5em'
+    } else {
+      return '1em'
+    }
+
   }
 
   render() {
-    console.log('current User in Weather Search', this.props.currentUser)
     return (
       <div
         style={{
           padding: '20px', fontFamily: 'Nunito, sans-serif'
         }}>
         <Breadcrumb className='hovering' size='huge' style={{margin: '30px 0px'}} >
-          <Breadcrumb.Section active={this.state.activeForm === 'citySearch'} style={{color: 'white'}} onClick={() => this.handleClick('citySearch')}>Search by City, State</Breadcrumb.Section>
+          <Breadcrumb.Section active={this.state.activeForm === 'citySearch'} style={{color: 'white', fontSize: this.fontSize('citySearch') }} onClick={() => this.handleClick('citySearch')}>Search by City, State</Breadcrumb.Section>
           <Breadcrumb.Divider style={{margin: '8px'}}/>
-          <Breadcrumb.Section active={this.state.activeForm === 'zipSearch'} style={{color: 'white'}} onClick={() => this.handleClick('zipSearch')}>Search by ZIP Code</Breadcrumb.Section>
+          <Breadcrumb.Section active={this.state.activeForm === 'zipSearch'} style={{color: 'white', fontSize: this.fontSize('zipSearch')}} onClick={() => this.handleClick('zipSearch')}>Search by ZIP Code</Breadcrumb.Section>
           <Breadcrumb.Divider style={{margin: '8px'}}/>
-          <Breadcrumb.Section active={this.state.activeForm === 'intlSearch'} style={{color: 'white'}} onClick={() => this.handleClick('intlSearch')}>Search Internationally</Breadcrumb.Section>
+          <Breadcrumb.Section active={this.state.activeForm === 'intlSearch'} style={{color: 'white', fontSize: this.fontSize('intlSearch')}} onClick={() => this.handleClick('intlSearch')}>Search Internationally</Breadcrumb.Section>
         </Breadcrumb>
 
         {(this.state.activeForm === 'zipSearch')
@@ -48,8 +56,7 @@ class WeatherSearch extends React.Component {
               style={{margin: '30px 0px'}}
               onSubmit={(e) => {
               e.preventDefault();
-              console.log('were in the onSubmit', this.state.zipSearch)
-              this.props.fetchWeatherByZip(this.props.currentUser, this.state.zipSearch)}}
+              this.props.fetchWeatherByZip(this.state.zipSearch)}}
             >
               <input
                 type="text"
@@ -72,7 +79,7 @@ class WeatherSearch extends React.Component {
               style={{margin: '30px 0px'}}
               onSubmit={(e) => {
                 e.preventDefault();
-                this.props.fetchWeatherByCity(this.props.currentUser, this.state.citySearch)}}>
+                this.props.fetchWeatherByCity(this.state.citySearch)}}>
               <input
                 type="text"
                 name="citySearch"
@@ -94,7 +101,7 @@ class WeatherSearch extends React.Component {
             style={{margin: '30px 0px'}}
             onSubmit={(e) => {
               e.preventDefault();
-              this.props.fetchIntlWeather(this.props.currentUser, this.state.intlSearch)}}>
+              this.props.fetchIntlWeather(this.state.intlSearch)}}>
             <input
               type="text"
               name="intlSearch"
@@ -112,7 +119,7 @@ class WeatherSearch extends React.Component {
         }
         <form onSubmit={(e) => {
             e.preventDefault();
-            navigator.geolocation.getCurrentPosition((resp)=>this.props.fetchWeatherByCurrentLocation(this.props.currentUser, resp))}}>
+            navigator.geolocation.getCurrentPosition((resp)=>this.props.fetchWeatherByCurrentLocation(resp))}}>
           <Button inverted size='big' type='submit' style={{marginTop: '25px', fontFamily: 'Nunito, sans-serif', borderRadius: '30px'}} >
             Search By Current Location
           </Button>
@@ -123,10 +130,10 @@ class WeatherSearch extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    currentUser: state.user.currentUser,
-  }
-}
+// function mapStateToProps(state) {
+//   return {
+//     currentUser: state.user.currentUser,
+//   }
+// }
 
-export default connect(mapStateToProps, { fetchWeatherByZip, fetchWeatherByCity, fetchWeatherByCurrentLocation, fetchIntlWeather })(WeatherSearch);
+export default connect(null, { fetchWeatherByZip, fetchWeatherByCity, fetchWeatherByCurrentLocation, fetchIntlWeather })(WeatherSearch);

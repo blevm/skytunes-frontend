@@ -42,7 +42,6 @@ export function clearTracks() {
 }
 
 export function setUser(data) {
-  // debugger
   return {
     type: "SETTING_USER",
     payload: {
@@ -78,6 +77,20 @@ export function backToAllTracks() {
   }
 }
 
+export function addUserLocations(data) {
+  return {
+    type: "LOAD_LOCATIONS",
+    payload: data
+  }
+}
+
+export function removeLocation(data) {
+  return {
+    type: "REMOVE_LOCATION",
+    payload: data
+  }
+}
+
 export function fetchUser(k) {
   return function(dispatch) {
     Adapter.getUser(k)
@@ -97,23 +110,23 @@ export function refreshUser() {
   }
 }
 
-export function fetchWeatherByZip(user, zip) {
+export function fetchWeatherByZip(zip) {
   return function(dispatch) {
-    Adapter.getWeatherByZip(user, zip)
+    Adapter.getWeatherByZip(zip)
     .then(data => dispatch(weatherSearch(data)))
   }
 }
 
-export function fetchWeatherByCity(user, city) {
+export function fetchWeatherByCity(city) {
   return function(dispatch) {
-    Adapter.getWeatherByCity(user, city)
+    Adapter.getWeatherByCity(city)
     .then(data => dispatch(weatherSearch(data)))
   }
 }
 
-export function fetchWeatherByCurrentLocation(user, resp) {
+export function fetchWeatherByCurrentLocation(resp) {
   return function(dispatch) {
-    Adapter.getWeatherByCurrentLocation(user, resp)
+    Adapter.getWeatherByCurrentLocation(resp)
     .then(data => dispatch(weatherSearch(data)))
   }
 }
@@ -125,23 +138,23 @@ export function fetchIntlWeather(user, resp) {
   }
 }
 
-export function fetchSongRecs(user, weather) {
+export function fetchSongRecs(weather) {
   return function(dispatch) {
-    Adapter.getSongRecommendations(user, weather)
+    Adapter.getSongRecommendations(weather)
     .then(data => dispatch(setTrackList(data)))
   }
 }
 
-export function fetchMoreSongRecs(user, weather) {
+export function fetchMoreSongRecs(weather) {
   return function(dispatch) {
-    Adapter.getMoreSongRecommendations(user, weather)
+    Adapter.getMoreSongRecommendations(weather)
     .then(data => dispatch(addToTrackList(data)))
   }
 }
 
-export function createPlaylistThenResetPage(user, title, songs) {
+export function createPlaylistThenResetPage(title, songs) {
   return function(dispatch) {
-    Adapter.makeAPlaylist(user, title, songs)
+    Adapter.makeAPlaylist(title, songs)
     .then(data => {
       dispatch(clearTracks())
       dispatch(clearWeather())
@@ -156,12 +169,39 @@ export function resetPage() {
   }
 }
 
+export function loadLocations() {
+  return function(dispatch) {
+    Adapter.getUserLocations()
+    .then(data =>
+      dispatch(addUserLocations(data)))
+  }
+}
+
 export function logoutUser() {
   return function(dispatch) {
     Adapter.logout()
     .then(() => {
-      dispatch(setUser({username: '', image: ''}));
+      dispatch(setUser({username: '', image: '', locations: []}));
       localStorage.removeItem('token');
+    })
+  }
+}
+
+export function fetchWeatherFromSavedLocation(lat, long, props) {
+  return function(dispatch) {
+    Adapter.getWeatherBySavedLocation(lat, long)
+    .then(data => {
+      dispatch(weatherSearch(data))
+      props.history.push('/weather')
+    })
+  }
+}
+
+export function removeALocaton(id) {
+  return function(dispatch) {
+    Adapter.deleteALocation(id)
+    .then(data => {
+      dispatch(removeLocation(data))
     })
   }
 }

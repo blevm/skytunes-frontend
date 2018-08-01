@@ -20,53 +20,99 @@ export default class Adapter {
     }).then(resp => resp.json())
   }
 
-  static getWeatherByZip(user, search) {
-    console.log('searching in the adapter', search)
-    return fetch(`${URL}/search-zip/${user}/${search}`)
+  static getWeatherByZip(search) {
+    return fetch(`${URL}/search-zip/${search}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem('token')
+      }
+    })
     .then(resp =>  resp.json())
   }
 
-  static getWeatherByCity(user, search) {
-    return fetch(`${URL}/search-city/${user}/${search}`)
+  static getWeatherByCity(search) {
+    return fetch(`${URL}/search-city/${search}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem('token')
+      }
+    })
     .then(resp =>  resp.json())
   }
 
-  static getIntlWeather(user, search) {
-    return fetch(`${URL}/search-intl/${user}/${search}`)
+  static getIntlWeather(search) {
+    return fetch(`${URL}/search-intl/${search}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem('token')
+      }
+    })
     .then(resp =>  resp.json())
   }
 
-  static getWeatherByCurrentLocation(user, result) {
+  static getWeatherByCurrentLocation(result) {
     let lat = result.coords.latitude.toString()
     let long = result.coords.longitude.toString()
 
-    return fetch(`${URL}/${user}/search-current/?lat=${lat}&long=${long}`)
+    return fetch(`${URL}/search-current/?lat=${lat}&long=${long}`, {headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem('token')
+          }})
     .then(resp =>  resp.json())
   }
 
-  static getSongRecommendations(user, weather) {
-    return fetch(`${URL}/${user}/${weather}/recommended-tracks`)
+  static getWeatherBySavedLocation(lat, long) {
+    return fetch(`${URL}/search-current/?lat=${lat}&long=${long}`, {headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem('token')
+          }})
+    .then(resp =>  resp.json())
+  }
+
+  static getSongRecommendations(weather) {
+    return fetch(`${URL}/${weather}/recommended-tracks`, {headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem('token')
+          }})
     .then(resp => resp.json())
   }
 
-  static getMoreSongRecommendations(user, weather) {
-    return fetch(`${URL}/${user}/${weather}/more-recommended-tracks`)
+  static getMoreSongRecommendations(weather) {
+    return fetch(`${URL}/${weather}/more-recommended-tracks`, {headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem('token')
+          }})
     .then(resp => resp.json())
   }
 
-  static makeAPlaylist(user, title, tracks) {
+  static makeAPlaylist(title, tracks) {
     let trackList = tracks.map(track => track.uri).join(',')
     let body = {
       method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem('token')
+      },
       body: JSON.stringify({
         songs: trackList
       })
     }
-    return fetch(`${URL}/${user}/${title}/new-playlist`, body)
+    return fetch(`${URL}/${title}/new-playlist`, body)
   }
 
-  static getUserLocations(user) {
+  static getUserLocations() {
     return fetch(`${URL}/locations`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem('token')
+      }
+    })
+    .then(resp => resp.json())
+  }
+
+  static deleteALocation(id) {
+    return fetch(`${URL}/locations/${id}`, {
+      method: 'DELETE',
       headers: {
         "Content-Type": "application/json",
         "Authorization": localStorage.getItem('token')

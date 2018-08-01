@@ -1,32 +1,30 @@
 import React from 'react';
-import Adapter from '../Adapter';
+// import Adapter from '../Adapter';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Card } from 'semantic-ui-react';
+import { loadLocations } from '../actions';
+import UUID from 'uuid';
+import Location from './Location';
 
 class SavedLocations extends React.Component {
 
-  state = {
-    locations: []
-  }
-
   componentDidMount() {
-    // debugger
-    Adapter.getUserLocations()
-    .then(data => this.setState({
-      locations: data
-    }))
+    this.props.loadLocations()
   }
 
   render() {
-    console.log(this.state.locations)
     return (
-      <div>{(this.state.locations) ? this.state.locations.map(location =>
-        <React.Fragment>
-          <h1>{location.city}</h1>
-          <h1>{location.state}</h1>
-        </React.Fragment>
-      ) : null}
-      </div>
+      <React.Fragment>
+      <h1 style={{fontFamily: 'Nunito, sans-serif'}}>Previously Searched Locations</h1>
+      <Card.Group centered style={{margin: '40px'}}>
+      {(this.props.locations)
+           ? this.props.locations.map(location =>
+           <Location key={UUID()} place={location} />
+         )
+         : null}
+      </Card.Group>
+      </React.Fragment>
     )
   }
 
@@ -34,8 +32,8 @@ class SavedLocations extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    currentUser: state.user.currentUser
+    locations: state.user.locations
   }
 }
 
-export default withRouter(connect(mapStateToProps)(SavedLocations));
+export default withRouter(connect(mapStateToProps, { loadLocations })(SavedLocations));

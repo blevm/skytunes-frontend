@@ -3,7 +3,6 @@ import { Menu } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { resetPage, logoutUser } from '../actions';
 import { NavLink, Link, withRouter } from 'react-router-dom';
-import Adapter from '../Adapter';
 
 class NavBar extends React.Component {
 
@@ -18,12 +17,13 @@ class NavBar extends React.Component {
           <Menu.Item>
             <Link to='/weather'><img alt="sky tunes" style={{width: '150px'}} src={require('../skytuneslogo.png')} /></Link>
           </Menu.Item>
-          {(Adapter.loggedIn()) ?
+          {(this.props.currentUser !== '') ?
           <React.Fragment>
             <Menu.Item
-              name='newWeatherSearch'
+              as={NavLink}
+              exact to='/weather'
+              name='weatherSearch'
               style={{padding: '25px', color: 'white'}}
-              onClick={() => this.props.resetPage()}
             />
             <Menu.Item
               as={NavLink}
@@ -73,11 +73,5 @@ function mapStateToProps(state) {
     weatherIcon: state.weather.weatherIcon
   }
 }
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     resetPage: () => dispatch(resetPage())
-//   }
-// }
 
 export default withRouter(connect(mapStateToProps, { resetPage, logoutUser })(NavBar));

@@ -3,7 +3,6 @@ import { Table, Icon, Checkbox } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { addTrack, removeTrack } from '../actions';
 
-
 class Song extends React.Component {
   state = {
     playing: false,
@@ -27,6 +26,7 @@ class Song extends React.Component {
   }
 
   render() {
+    console.log(this.state.checked)
     return (
       <Table.Row>
         <Table.Cell floated='right' style={(this.props.selectSongs) ? {} : {display: "none"}}>

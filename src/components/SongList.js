@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react';
 import Song from './Song';
 import { connect } from 'react-redux';
 import { Table, Icon, Button } from 'semantic-ui-react';
-import { selectOwnSongs, backToAllTracks, createPlaylistThenResetPage, fetchMoreSongRecs } from '../actions';
+import { selectOwnSongs, backToAllTracks, createPlaylistThenResetPage, fetchMoreSongRecs, resetPage } from '../actions';
+import UUID from 'uuid';
 
 class SongList extends Component {
 
   render() {
-    console.log('weatherIcon', this.props.weatherIcon)
     return (
       <Fragment>
       <div style={{margin: '10px 200px 50px 200px'}}>
@@ -22,19 +22,19 @@ class SongList extends Component {
           </Table.Header>
 
           <Table.Body style={{overflowX: 'scroll'}}>
-            {(this.props.tracks) ? this.props.tracks.map(track => <Song key={track.id} track={track} selectSongs={this.props.selectSongs} />) : <tr>'No Songs Yet'</tr>}
+            {(this.props.tracks) ? this.props.tracks.map(track => <Song key={UUID()} track={track} selectSongs={this.props.selectSongs} />) : <tr>'No Songs Yet'</tr>}
           </Table.Body>
           </Table>
         </div>
         <div className='footer-buttons' style={{background: '#9CECFB'}}>
           {(!this.props.selectSongs) ? <Button icon labelPosition='left' size='large' style={{margin: '5px', fontFamily: 'Nunito, sans-serif'}} onClick={this.props.selectOwnSongs}><Icon name='check square outline' />Select From These Tracks</Button> :
           <Button size='large' style={{margin: '5px', fontFamily: 'Nunito, sans-serif'}} onClick={this.props.backToAllTracks}>Back To All Tracks</Button>}
-          <Button secondary size='large' style={{margin: '5px', fontFamily: 'Nunito, sans-serif'}} onClick={() => this.props.fetchMoreSongRecs(this.props.currentUser, this.props.weatherIcon)}>Get More Song Recommendations</Button>
+          <Button secondary size='large' style={{margin: '5px', fontFamily: 'Nunito, sans-serif'}} onClick={() => this.props.fetchMoreSongRecs(this.props.weatherIcon)}>Get More Song Recommendations</Button>
           {(this.props.tracks) ? <Button icon labelPosition='left' primary size='large' style={{margin: '5px', fontFamily: 'Nunito, sans-serif'}} onClick={() => {
-            this.props.createPlaylistThenResetPage(this.props.currentUser, `It's ${this.props.weatherTitle} in ${this.props.weatherCity}`, ((this.props.selectedTracks.length > 0) ? this.props.selectedTracks : this.props.tracks))}}>
+            this.props.createPlaylistThenResetPage(`It's ${this.props.weatherTitle} in ${this.props.weatherCity}`, ((this.props.selectedTracks.length > 0) ? this.props.selectedTracks : this.props.tracks))}}>
             <Icon name='music' />{(!this.props.selectSongs) ? 'Create A Spotify Playlist With All Songs' : 'Create A Spotify Playlist With Selected Songs'}
           </Button> : null}
-
+          <Button color='green' size='large' style={{margin: '5px 5px 5px 60px', fontFamily: 'Nunito, sans-serif'}} onClick={() => this.props.resetPage()}>New Weather Search</Button>
 
         </div>
       </Fragment>
@@ -47,18 +47,10 @@ function mapStateToProps(state) {
     selectSongs: state.music.selectSongs,
     tracks: state.music.tracks,
     selectedTracks: state.music.selectedTracks,
-    currentUser: state.user.currentUser,
     weatherTitle: state.weather.weatherTitle,
     weatherCity: state.weather.weatherCity,
     weatherIcon: state.weather.weatherIcon,
   }
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     selectOwnSongs: () => dispatch(selectOwnSongs()),
-//     createPlaylistThenResetPage: () => dispatch(createPlaylistThenResetPage())
-//   }
-// }
-
-export default connect(mapStateToProps, {selectOwnSongs, backToAllTracks, createPlaylistThenResetPage, fetchMoreSongRecs})(SongList);
+export default connect(mapStateToProps, {selectOwnSongs, backToAllTracks, createPlaylistThenResetPage, fetchMoreSongRecs, resetPage })(SongList);

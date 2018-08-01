@@ -24,10 +24,4 @@ function mapStateToProps(state) {
   }
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     setUser: data => dispatch(setUser(data))
-//   }
-// }
-
 export default withRouter(connect(mapStateToProps, { fetchUser })(SuccessContainer));

@@ -29,15 +29,18 @@ class App extends Component {
               }
             />
             <Route path="/weather" component={() =>
-                <WeatherContainer {...this.props} />
+                <React.Fragment>
+                  <WeatherContainer {...this.props} />
+                  {(this.props.weatherIcon !== '')
+                    ? <RecommendationsContainer />
+                    : null}
+                </React.Fragment>
               }
             />
           <Route exact path='/locations' component={SavedLocations} />
           </React.Fragment>
         </Switch>
-        {(this.props.weatherIcon !== '')
-          ? <RecommendationsContainer />
-          : null}
+
         {(this.props.currentUser === '')
           ? <div className="home-page flex-fill" style={{align: "center"}}/>
           : null}
