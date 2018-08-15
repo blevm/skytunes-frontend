@@ -3,11 +3,10 @@ import { Table, Icon, Checkbox } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { addTrack, removeTrack } from '../actions';
 
-
 class Song extends React.Component {
   state = {
     playing: false,
-    checked: false
+    checked: true
   }
 
   playAudio = (id) => {
@@ -24,19 +23,19 @@ class Song extends React.Component {
     }, () => {
       (this.state.checked) ? this.props.addTrack(data) : this.props.removeTrack(data)
     })
-
   }
 
   render() {
+    console.log(this.state.checked)
     return (
       <Table.Row>
         <Table.Cell floated='right' style={(this.props.selectSongs) ? {} : {display: "none"}}>
           <Checkbox floated='right' checked={this.state.checked} onChange={() => this.handleCheck(this.props.track)}/>
         </Table.Cell>
         <Table.Cell>{this.props.track.name}</Table.Cell>
-        <Table.Cell>{this.props.track.artists[0].name}</Table.Cell>
+        <Table.Cell>{(this.props.track.artists) ? this.props.track.artists[0].name : 'N/A'}</Table.Cell>
           <Table.Cell>
-            <Icon link name={(this.state.playing) ? 'pause circle outline' : 'play circle outline'} onClick={() => this.playAudio(this.props.track.id)}/>
+            <Icon size='large' link name={(this.state.playing) ? 'pause circle outline' : 'play circle outline'} onClick={() => this.playAudio(this.props.track.id)}/>
             <audio
               id={this.props.track.id}
               src={this.props.track.preview_url}

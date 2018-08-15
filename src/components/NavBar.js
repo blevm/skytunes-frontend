@@ -1,56 +1,62 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Menu } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { resetPage, logoutUser } from '../actions';
+import { NavLink, Link, withRouter } from 'react-router-dom';
 
-class NavBar extends Component {
-  state = { activeItem: 'home' }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+class NavBar extends React.Component {
 
   render() {
-    const { activeItem } = this.state
-
     return (
       <div>
         <Menu pointing secondary
-          style={{background: 'rgba(255, 255, 255, 0.5)'}}
+          className='fixed'
+          size='huge'
+          style={{background: 'rgba(47, 100, 210, 1)', fontWeight: 'bold', fontFamily: 'Nunito, sans-serif'}}
           >
-          <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
-          <Menu.Item
-            name='weather'
-            active={activeItem === 'messages'}
-            onClick={this.handleItemClick}
-          />
-          <Menu.Item
-            name='recommendations'
-            active={activeItem === 'friends'}
-            onClick={this.handleItemClick}
-          />
+          <Menu.Item>
+            <Link to='/weather'><img alt="sky tunes" style={{width: '150px'}} src={require('../skytuneslogo.png')} /></Link>
+          </Menu.Item>
+          {(this.props.currentUser !== '') ?
+          <React.Fragment>
+            <Menu.Item
+              as={NavLink}
+              exact to='/weather'
+              name='weatherSearch'
+              style={{padding: '25px', color: 'white'}}
+            />
+            <Menu.Item
+              as={NavLink}
+              exact to='/locations'
+              name='savedLocations'
+              style={{padding: '25px', color: 'white'}}
+            />
+          </React.Fragment>
+          : null}
           <Menu.Menu position='right'>
           {(this.props.currentUser !== '')
           ?
           <Fragment>
-            <Menu.Item
-              style={{
-                padding: '2px'
-              }}>
-              <img src={this.props.userImage} class="rounded" />
+            <Menu.Item>
+              <img alt="Spotify Profile" src={this.props.userImage} className="rounded" />
             </Menu.Item>
-            <Menu.Item
-              style={{
-                paddingLeft: '5px'
-              }}>
+            <Menu.Item style={{padding: '25px 20px 25px 0px', color: 'white'}} >
               <strong>{this.props.currentUser}</strong>
             </Menu.Item>
             <Menu.Item
+              style={{padding: '25px', color: 'white'}}
               name='logout'
-              href={`http://localhost:4000/api/v1/${this.props.currentUser}/logout`}
+              onClick={() => {
+                this.props.logoutUser();
+                this.props.history.push('/');
+              }}
             />
           </Fragment>
           :
             <Menu.Item
-              name='login'
-              href="http://localhost:4000/api/v1/login"
+              style={{padding: '25px', color: 'white', fontWeight: 'bold'}}
+              name='loginThroughSpotify'
+              href='http://localhost:4000/api/v1/login'
             />
           }
           </Menu.Menu>
@@ -68,4 +74,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(NavBar);
+export default withRouter(connect(mapStateToProps, { resetPage, logoutUser })(NavBar));

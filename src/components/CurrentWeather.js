@@ -3,11 +3,16 @@ import { connect } from 'react-redux';
 
 const CurrentWeather = ({ weatherCity, weatherTitle, weatherSummary, temperature }) => {
   return (
-    <div>
-      <h1>Current Weather for {weatherCity}</h1>
-      <h2>{weatherTitle}</h2>
-      <p><em>{weatherSummary}</em></p>
-      <h2>{temperature}˚F</h2>
+    <div style={{marginTop: '20px'}}>
+      <h1 style={{color: 'white', fontFamily: 'Nunito, sans-serif'}}>Current Weather for {weatherCity}</h1>
+      <div
+        style={{border: '2px solid white', borderRadius: '50px', width: '30%', marginLeft: 'auto', marginRight: 'auto', padding: '30px 10px'}}
+      >
+      {weatherTitle ? <h2 style={{fontFamily: 'Nunito, sans-serif'}}>{weatherTitle}</h2> : null}
+      {weatherSummary ? <p style={{fontFamily: 'Nunito, sans-serif'}}><em>{weatherSummary}</em></p> : null}
+      {temperature ? <h2 style={{fontFamily: 'Nunito, sans-serif'}}>{temperature}˚F</h2> : null}
+      </div>
+      <a href="https://darksky.net/poweredby/"><img alt="Powered by Dark Sky" src="https://darksky.net/dev/img/attribution/poweredby-oneline-darkbackground.png" style={{width: '15%', paddingTop: '5px'}}/></a>
     </div>
   )
 }
